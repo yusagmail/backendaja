@@ -1,0 +1,23 @@
+<?php
+
+use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $model backend\models\AssetDismantleReceived */
+
+$this->title = 'Pencabutan';
+$this->params['breadcrumbs'][] = ['label' => 'Pencabutan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="box">
+	<div class="box-body asset-dismantle-received-create">
+	    <?= $this->render('_detail', [
+	        'model' => $modelOrder,
+	    ]) ?>
+		
+	    <?= $this->render('_detail_received', [
+	        'model' => $model,
+	    ]) ?>
+
+	</div>
+</div>
