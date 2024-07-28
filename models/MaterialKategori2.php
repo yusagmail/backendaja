@@ -1,0 +1,66 @@
+<?php
+
+namespace backend\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "material_kategori2".
+ *
+ * @property int $id_material
+ * @property string $kode
+ * @property string $nama
+ * @property int $is_active
+ */
+class MaterialKategori2 extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'material_kategori2';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['kode', 'nama'], 'required'],
+            [['is_active'], 'integer'],
+            [['kode'], 'string', 'max' => 50],
+            [['nama'], 'string', 'max' => 200],
+            [['kode'], 'string', 'min' => 2, 'max' => 2, 'tooShort' => '{attribute} minimal 2 karakter' , 'tooLong' => '{attribute} maksimal 2 karakter' ],
+            ['kode', 'validateDoubleKode'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id_material' => 'Id Material',
+            'kode' => 'Kode',
+            'nama' => 'Nama',
+            'is_active' => 'Is Active',
+        ];
+    }
+
+    public function validateDoubleKode($attribute)
+    {
+        //Di sini ngecek apakah nomor registrasi sudah pernah ada atau belum pernah.
+        $reg =  MaterialKategori2::find()
+            ->where(['kode' => $this->kode])
+            ->one();
+        if ($reg != null) {
+            if($reg->id_material != $this->id_material){
+                $this->addError($attribute, "Kode ini [" . $this->kode."] telah terdaftar di sistem ini. Silakan gunakan kode yang lain!");
+            }
+            //if ($model->isNewRecord) {
+        }
+    }
+}
